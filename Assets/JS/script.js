@@ -7,23 +7,74 @@ var btn = document.querySelector(".btn")
 
 // Fetch Weather API
 
-//Capture search data from user with form handler
+// to Capture search data from user with form handler
 let formHandler = function(event) {
     event.preventDefault();
 
+    // Get Value from input element
+    let cityName = cityNameInput.value.trim();
 
-// Get Value from input element
-let cityName = cityNameInput.value.trim();
+    if (cityName) {
+        getcityForecast(cityName);
+    } else {
+        alert("Please enter a city name");
+    }
+}   
 
-if (cityName) {
-    getcityForecast(cityName);
-} else {
-    alert("Please enter a city name");
+// Use search data to show current and future conditions for the city searched, search is added to search history 
+
+var getcityForecast = function(cityName) {
+
+// format the url
+
+    var apiUrl = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&appid=93bc7ce0f6c148d2b60cb17b2f7a02b1"
+
+// Make request from Url
+
+// five day
+    fetch(apiUrl).then(function(response) {
+        return response.json()
+    }).then(function(data) {
+        // console.log(data)
+            fiveDayForecast(data);
+            //getUVIndex(data);
+    });
+    
+    var secondUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=93bc7ce0f6c148d2b60cb17b2f7a02b1"
+    
+    // current Day
+    fetch(apiUrl).then(function(response) {
+        return response.json()
+    }).then(function(data) {
+        console.log(data)
+            assignForecastData(data);
+           
+    });
+
+
 }
+
+// Each city should show city name, date icon, rep of weather conditions, temp, humidity wind speed UV index
+
+var assignForecastData = function(data){
+
+
+}
+
+var fiveDayForecast = function(data) {
+//let currentCity = data.city.name;
+//let currentTemp = Math.floor((data.list[0].main.temp - 273) * 9 / 5 + 32);
+//let degree= "&#176";
+//let currentHumidity = data.list[0].main.humidity;
+//let currentWind= Math.floor(data.list[0].wind.speed);
+
+
+}
+var getUVIndex = function(data) {
+
 }
 
 
 
-
-
-
+// Add Event Listener
+submitBtn.addEventListener("click", formHandler);  
