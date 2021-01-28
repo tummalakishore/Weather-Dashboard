@@ -40,10 +40,10 @@ var getcityForecast = function(cityName) {
             //getUVIndex(data);
     });
     
-    var secondUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=93bc7ce0f6c148d2b60cb17b2f7a02b1"
+    var secondUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=93bc7ce0f6c148d2b60cb17b2f7a02b1&units=imperial"
     
     // current Day
-    fetch(apiUrl).then(function(response) {
+    fetch(secondUrl).then(function(response) {
         return response.json()
     }).then(function(data) {
         console.log(data)
@@ -57,8 +57,36 @@ var getcityForecast = function(cityName) {
 // Each city should show city name, date icon, rep of weather conditions, temp, humidity wind speed UV index
 
 var assignForecastData = function(data){
+    var weatherInfo = document.getElementById('weather-info');
 
+    var humidity = data.main.humidity;
+    var humidityP = document.createElement('p');
+    humidityP.innerHTML = "Humidity: " + humidity;    
+    weatherInfo.append(humidityP);
 
+    var temp = data.main.temp;
+    var tempP = document.createElement('p');
+    tempP.innerHTML = "temperature: " + temp;
+    weatherInfo.append(tempP)
+
+    var temperature = data.main.temperature;
+    var temperatureP = document.createElement('p');
+    temperatureP.innerHTML = "temperature: " + temperature;
+    weatherInfo.append(temperatureP)
+
+    var pressure = data.main.pressure;
+    var pressureP = document.createElement('p');
+    pressureP.innerHTML = "pressure: " + pressure;
+    weatherInfo.append(pressureP)
+
+    var windspeed = data.wind.speed;
+    var windspeedP = document.createElement('p');
+    windspeedP.innerHTML = "windspeed: " + windspeed;
+    weatherInfo.append(windspeedP)
+
+    
+
+    
 }
 
 var fiveDayForecast = function(data) {
