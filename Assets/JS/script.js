@@ -27,7 +27,7 @@ var getcityForecast = function(cityName) {
 
 // format the url
 
-    var apiUrl = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&appid=93bc7ce0f6c148d2b60cb17b2f7a02b1"
+    var apiUrl = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&appid=93bc7ce0f6c148d2b60cb17b2f7a02b1&units=imperial"
 
 // Make request from Url
 
@@ -35,10 +35,12 @@ var getcityForecast = function(cityName) {
     fetch(apiUrl).then(function(response) {
         return response.json()
     }).then(function(data) {
-        // console.log(data)
+        console.log(data)
             fiveDayForecast(data);
-            //getUVIndex(data);
-    });
+            
+            });
+
+     //getUVIndex(data);
     
     var secondUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=93bc7ce0f6c148d2b60cb17b2f7a02b1&units=imperial"
     
@@ -46,7 +48,7 @@ var getcityForecast = function(cityName) {
     fetch(secondUrl).then(function(response) {
         return response.json()
     }).then(function(data) {
-        console.log(data)
+       // console.log(data)
             assignForecastData(data);
            
     });
@@ -83,26 +85,49 @@ var assignForecastData = function(data){
     var windspeedP = document.createElement('p');
     windspeedP.innerHTML = "windspeed: " + windspeed;
     weatherInfo.append(windspeedP)
-
-    
-
-    
 }
 
 var fiveDayForecast = function(data) {
-//let currentCity = data.city.name;
-//let currentTemp = Math.floor((data.list[0].main.temp - 273) * 9 / 5 + 32);
-//let degree= "&#176";
-//let currentHumidity = data.list[0].main.humidity;
-//let currentWind= Math.floor(data.list[0].wind.speed);
+let currentCity = data.city.name;
+let degree= "&#176";
+let currentHumidity = data.list[0].main.humidity;
+let currentWind= Math.floor(data.list[0].wind.speed); 
+
+
+for (var i=0; i < data.list.length; i = i + 8) {
+    var temp = data.list[i].main.temp;
+    var tempP = document.createElement('p');
+    temp.innerHTML = temp;
 
 
 }
+
+}
+
 var getUVIndex = function(data) {
+    
+    var thirdUrl = "http://api.openweathermap.org/data/2.5/uvi?lat={lat}&lon={lon}&appid={API key}" + cityName + "&appid=93bc7ce0f6c148d2b60cb17b2f7a02b1&units=imperial"
+
+fetch(thirdUrl).then(function(response) {
+    return response.json()
+}).then(function(data) {
+    console.log(data)
+       getUVIndex(data);
+        
+        });
+
+
 
 }
+
+
 
 
 
 // Add Event Listener
 submitBtn.addEventListener("click", formHandler);  
+
+// var arr = ['James', 'John', "Jacob", 'Daniel', 'Dave'];
+// for (var i = 0; i < arr.length; i = i + 2) {
+//     console.log(i)
+
