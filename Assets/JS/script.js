@@ -84,7 +84,10 @@ var assignForecastData = function(data){
     var windspeed = data.wind.speed;
     var windspeedP = document.createElement('p');
     windspeedP.innerHTML = "windspeed: " + windspeed;
-    weatherInfo.append(windspeedP)
+    weatherInfo.append(windspeedP) 
+
+console.log("lat", data.coord.lat)
+    // getUVIndex(data.coord.lat, data.coord.lon)
 }
 
 var fiveDayForecast = function(data) {
@@ -93,26 +96,32 @@ let degree= "&#176";
 let currentHumidity = data.list[0].main.humidity;
 let currentWind= Math.floor(data.list[0].wind.speed); 
 
+console.log(currentCity)
+
 
 for (var i=0; i < data.list.length; i = i + 8) {
-    var temp = data.list[i].main.temp;
-    var tempP = document.createElement('p');
-    temp.innerHTML = temp;
-
-
-}
-
-}
-
-var getUVIndex = function(data) {
+    var humidity = data.list[i].main.humidity ;
+    var humidityP = document.createElement('p');
+    humidityP.innerHTML = "humidity" + humidity
     
-    var thirdUrl = "http://api.openweathermap.org/data/2.5/uvi?lat={lat}&lon={lon}&appid={API key}" + cityName + "&appid=93bc7ce0f6c148d2b60cb17b2f7a02b1&units=imperial"
+    var weatherInfo = document.getElementById('weather-info');
+    weatherInfo.append(humidityP)
 
+
+
+}
+
+}
+
+var getUVIndex = function(lat, lon) {  
+    
+var thirdUrl = "http://api.openweathermap.org/data/2.5/uvi?&appid=93bc7ce0f6c148d2b60cb17b2f7a02b1&units=imperial&lat=" + lat + "&lon" + lon 
+ 
 fetch(thirdUrl).then(function(response) {
     return response.json()
 }).then(function(data) {
     console.log(data)
-       getUVIndex(data);
+      
         
         });
 
@@ -126,6 +135,12 @@ fetch(thirdUrl).then(function(response) {
 
 // Add Event Listener
 submitBtn.addEventListener("click", formHandler);  
+
+submitBtn.addEventListener("click", fiveDayForecast);  
+
+submitBtn.addEventListener("click", getUVIndex);
+
+
 
 // var arr = ['James', 'John', "Jacob", 'Daniel', 'Dave'];
 // for (var i = 0; i < arr.length; i = i + 2) {
